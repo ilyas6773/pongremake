@@ -36,6 +36,11 @@ function love.load()
     -- and graphics; try removing this function to see the difference!
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
+    -- more "retro-looking" font object we can use for any text
+    smallFont = love.graphics.newFont('font.ttf',8)
+
+    -- set LÖVE2D's active font ro 'smallFont' object
+
     -- initialize our virtual resolution, which will be rendered within our
     -- actual window no matter its dimensions; replaces our love.window.setMode
     -- form the last example
@@ -65,10 +70,28 @@ function love.draw()
     -- begin rendering at virtual resolution
     push:apply('start')
 
+    -- clear the screen with specific color; in this case, a color similar
+    -- to some versions of the orginal Pong
+    love.graphics.clear(40/255, 45/255, 52/255, 255/255)
+
     -- condensed onto one line from last example
     -- note we are now using virtual width and height for text placement
-    love.graphics.printf('Hello Pong!', 0, VIRTUAL_HEIGHT / 2 - 6, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Hello Pong!', 0, 20, VIRTUAL_WIDTH, 'center')
 
+    --
+    -- paddles are simply rectangles we draw on the screen at certain points,
+    -- as is the ball
+    --
+
+    -- render first paddle (left side)
+    love.graphics.rectangle('fill', 10, 30, 5, 20)
+
+    -- render second paddle (right side)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 50, 5, 20)
+
+    -- render ball (center)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
+    
     -- end rendering at virtual resolution
     push:apply('end')
 end
