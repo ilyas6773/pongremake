@@ -109,6 +109,13 @@ function love.load()
 end
 
 --[[
+    Called by LÖVE whenever we resize the screen; here, we can just want to pass in the
+    width and height to push so our virtual resolution can be resized as needed
+]]
+function love.resize(w,h)
+    push:resize(w, h)
+
+--[[
     Runs every frame, with "dt" passed in, our delta in seconds
     since the last frame, which LÖVE2D supplies us
 ]]
