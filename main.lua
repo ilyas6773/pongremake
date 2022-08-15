@@ -94,6 +94,10 @@ function love.load()
     -- following turn
     servingPlayer = 1
 
+    -- player who won the game; not set to a proper value untill we reach
+    -- that state in the game
+    winningPlayer = 0
+
     -- initialize our player paddles; make them global so that they can be
     -- detected by other functions and modules
     player1 = Paddle(10, 30, 5, 20)
@@ -105,6 +109,11 @@ function love.load()
     -- game state variable used to transition between different parts of the game
     -- (used for beginning, menus, main game, high score list, etc.)
     -- we will use this to determine bahavior during render and update
+    -- can be any of the following:
+    -- 1. 'start' (the beginning of the game, before first serve)
+    -- 2. 'serve' (waiting on a key press to serve the ball)
+    -- 3. 'play' (the ball is in play, bouncing between paddles)
+    -- 4. 'done' (the game is over, with a victor, ready for restart)
     gameState = 'start'
 end
 
@@ -114,10 +123,15 @@ end
 ]]
 function love.resize(w,h)
     push:resize(w, h)
+end
 
 --[[
-    Runs every frame, with "dt" passed in, our delta in seconds
-    since the last frame, which LÖVE2D supplies us
+    Called every frame, passing in `dt` since the last frame. `dt`
+    is short for `deltaTime` and is measured in seconds. Multiplying
+    this by any changes we wish to make in our game will allow our
+    game to perform consistently across all hardware; otherwise, any
+    changes we make will be applied as fast as possible and will vary
+    across system hardware.
 ]]
 function love.update(dt)
     if gameState == 'serve' then
@@ -207,8 +221,9 @@ function love.update(dt)
         end
     end
 
-    
-
+    --
+    -- paddles can move no matter what state we're in
+    --
     -- player 1 movement
     if love.keyboard.isDown('w') then
         player1.dy = -PADDLE_SPEED
@@ -238,8 +253,10 @@ function love.update(dt)
 end
 
 --[[
-    Keyboard handling, called by LÖVE2D each frame;
-    passes in the key we pressed so we can access.
+    A callback that processes key strokes as they happen, just the once.
+    Does not account for keys that are held down, which is handled by a
+    separate function (`love.keyboard.isDown`). Useful for when we want
+    things to happen right away, just once, like when we want to quit.
 ]]
 function love.keypressed(key)
     --keys can be accessed by string name
