@@ -11,7 +11,7 @@
 ## Install
 
 ```
-To install this game you will need LOVE2D installed on your machine
+to launch this game you will need LOVE2D installed on your machine
 ```
 
 ## Author
