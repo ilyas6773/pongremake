@@ -10,8 +10,8 @@
 
 ## Install
 
-```To install this game you will need LOVE2D installed on your machine
-npm install
+```
+To install this game you will need LOVE2D installed on your machine
 ```
 
 ## Author
